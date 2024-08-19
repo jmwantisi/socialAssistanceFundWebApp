@@ -8,6 +8,7 @@
                 aria-next-label="Next page" aria-previous-label="Previous page" aria-page-label="Page"
                 aria-current-label="Current page" :page-input="hasInput" :pagination-order="paginationOrder"
                 :page-input-position="inputPosition" :debounce-page-input="inputDebounce">
+
                 <b-table-column field="id" label="ID" width="40" sortable numeric v-slot="props">
                     {{ props.row.id }}
                 </b-table-column>
@@ -26,27 +27,39 @@
                     </span>
                 </b-table-column>
 
-                <b-table-column label="sex" v-slot="props">
+                <b-table-column field="status" label="Status" sortable v-slot="props">
+                    <span :class="`tag ${getStatusBadgeType(props.row.status)}`">
+                        {{ props.row.status }}
+                    </span>
+                </b-table-column>
+
+                <b-table-column label="Sex" v-slot="props">
                     <span>
                         <b-icon pack="fas" :icon="props.row.sex === 'Male' ? 'mars' : 'venus'">
                         </b-icon>
                         {{ props.row.sex }}
                     </span>
                 </b-table-column>
+
+                <!-- Action Column -->
+                <b-table-column label="Actions" v-slot="props">
+                    <b-button size="is-small" type="is-info" @click="viewApplicant(props.row)">View</b-button>
+                    <b-button size="is-small" type="is-primary" @click="editApplicant(props.row)">Edit</b-button>
+                    <b-button size="is-small" type="is-danger" @click="deleteApplicant(props.row)">Delete</b-button>
+                </b-table-column>
+
             </b-table>
         </div>
     </div>
 </template>
+
 
 <script>
 import ApplicantService from '@/services/ApplicantService';
 export default {
     data() {
         return {
-            applicants: [
-                { id: 1, first_name: 'John', last_name: 'Doe', dob: '1990-01-01', sex: 'Male' },
-                { id: 2, first_name: 'Jane', last_name: 'Smith', dob: '1992-05-15', sex: 'Female' },
-            ],
+            applicants: [],
             isPaginated: true,
             isPaginationSimple: false,
             isPaginationRounded: false,
@@ -63,11 +76,47 @@ export default {
             applicantService: null
         };
     },
+    methods: {
+        viewApplicant(applicant) {
+            console.log("Viewing applicant:", applicant);
+        },
+
+        editApplicant(applicant) {
+            console.log("Editing applicant:", applicant);
+        },
+
+        async deleteApplicant(applicant) {
+            if (confirm(`Are you sure you want to delete ${applicant.first_name} ${applicant.last_name}?`)) {
+                try {
+                    await this.applicantService.delete(applicant.id);
+                    this.applicants = this.applicants.filter(a => a.id !== applicant.id);
+                    console.log(`Applicant ${applicant.first_name} deleted successfully.`);
+                } catch (error) {
+                    console.error('Error deleting applicant:', error);
+                }
+            }
+        },
+        getStatusBadgeType(status) {
+            switch (status) {
+                case 'Approved':
+                    return 'is-success';
+                case 'Pending':
+                    return 'is-warning';
+                case 'Declined':
+                    return 'is-danger';
+                default:
+                    return 'is-light';
+            }
+        },
+    },
     async created() {
         const applicantService = new ApplicantService();
-        const response = await applicantService.list();
-        this.applicant = response.content;
-        console.log("Applicant:: ", this.applicant)
+        try {
+            const response = await applicantService.list();
+            this.applicants = response.content;
+        } catch (error) {
+            console.error('Error fetching applicants:', error);
+        }
     }
 };
 </script>
