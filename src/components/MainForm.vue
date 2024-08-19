@@ -38,10 +38,6 @@
         ></b-datepicker>
       </b-field>
 
-      <b-field label="Age" :type="errors.age ? 'is-danger' : ''" message="Age is required and must be a valid number.">
-        <b-input type="number" v-model.number="applicant.age" placeholder="Enter age"></b-input>
-      </b-field>
-
       <b-field label="Marital Status" :type="errors.maritalStatus ? 'is-danger' : ''" message="Please select a marital status.">
         <b-select v-model="applicant.maritalStatus" expanded>
           <option value="">Select marital status</option>
@@ -182,7 +178,6 @@ export default {
         sex: '',
         dob: '',
         applicationDate: '',
-        age: '',
         maritalStatus: '',
         idNumber: '',
         countyId: '',
@@ -204,7 +199,6 @@ export default {
         middleName: '',
         lastName: '',
         sex: '',
-        age: '',
         maritalStatus: '',
         idNumber: '',
         countyId: null,
@@ -249,7 +243,6 @@ export default {
       if (!this.applicant.sex) errors.sex = true;
       if (!this.dob) errors.dob = true;
       if (!this.applicationDate) errors.applicationDate = true;
-      if (!this.applicant.age || isNaN(this.applicant.age)) errors.age = true;
       if (!this.applicant.maritalStatus) errors.maritalStatus = true;
       if (!this.applicant.idNumber) errors.idNumber = true;
       if (!this.applicant.countyId) errors.countyId = true;

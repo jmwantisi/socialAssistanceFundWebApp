@@ -191,6 +191,8 @@
 
 <script>
 import ApplicantService from '@/services/ApplicantService';
+import ProgramService from '@/services/ProgramService';
+import AddressService from '@/services/AddressService';
 import axios from 'axios';
 
 // Function to convert snake_case to camelCase
@@ -277,11 +279,10 @@ export default {
     async fetchDropdownData() {
       try {
         const [counties, programs] = await Promise.all([
-          axios.get('/api/counties'),
-          axios.get('/api/programmes'),
+          axios.get('/api/v1/addresses/counties'),
+          axios.get('/api/v1/programmes'),
         ]);
 
-        // Convert dropdown data keys to camelCase
         this.counties = convertKeysToCamelCase(counties.data);
         this.programs = convertKeysToCamelCase(programs.data);
       } catch (error) {
@@ -290,7 +291,7 @@ export default {
     },
     async onCountyChange() {
       try {
-        const response = await axios.get(`/api/subcounties?countyId=${this.applicant.countyId}`);
+        const response = await axios.get(`/api/v1/addresses/subcounties?countyId=${this.applicant.countyId}`);
         this.subCounties = convertKeysToCamelCase(response.data);
         this.applicant.subCountyId = '';
         this.applicant.locationId = '';
@@ -302,7 +303,7 @@ export default {
     },
     async onSubCountyChange() {
       try {
-        const response = await axios.get(`/api/locations?subCountyId=${this.applicant.subCountyId}`);
+        const response = await axios.get(`/api/v1/addresses/locations?subCountyId=${this.applicant.subCountyId}`);
         this.locations = convertKeysToCamelCase(response.data);
         this.applicant.locationId = '';
         this.applicant.subLocationId = '';
@@ -313,7 +314,7 @@ export default {
     },
     async onLocationChange() {
       try {
-        const response = await axios.get(`/api/sublocations?locationId=${this.applicant.locationId}`);
+        const response = await axios.get(`/api/v1/addresses/sublocations?locationId=${this.applicant.locationId}`);
         this.subLocations = convertKeysToCamelCase(response.data);
         this.applicant.subLocationId = '';
         this.applicant.villageId = '';
@@ -323,7 +324,7 @@ export default {
     },
     async onSubLocationChange() {
       try {
-        const response = await axios.get(`/api/villages?sublocationId=${this.applicant.subLocationId}`);
+        const response = await axios.get(`/api/v1/addresses/villages?sublocationId=${this.applicant.subLocationId}`);
         this.villages = convertKeysToCamelCase(response.data);
         this.applicant.villageId = '';
       } catch (error) {
@@ -353,9 +354,8 @@ export default {
         if (this.isViewing) {
           return;
         }
-        // Convert applicant data keys to snake_case before sending
         const requestData = convertKeysToCamelCase(this.applicant);
-        await axios.put('/api/applicant/1', requestData);
+        await axios.put('/api/v1/applicant/1', requestData);
         this.isViewing = true;
       } catch (error) {
         console.error('Error saving applicant data:', error);
