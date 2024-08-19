@@ -9,7 +9,7 @@ const routes = [
     component: ApplicantsListView
   },
   {
-    path: '/applicants/create',
+    path: '/create',
     name: 'applicantsCreate',
     component: ApplicantsFormView
   }
