@@ -195,7 +195,7 @@ export default {
           addressLine2: ''
         },
         physicalAddress: {
-          street: ''
+          addressLine1: ''
         }
       },
       applicant: {
@@ -213,7 +213,6 @@ export default {
         subLocationId: null,
         villageId: null,
         postalAddress: {
-          id: null,
           addressLine1: '',
           addressLine2: '',
           postalCode: ''
@@ -282,6 +281,7 @@ export default {
         console.log(finalPayload);
         const response = await this.applicantService.create(finalPayload);
         console.log('Applicant created successfully:', response.data);
+        this.$router.push('/');
       } catch (error) {
         console.error('Error submitting form:', error);
       }
