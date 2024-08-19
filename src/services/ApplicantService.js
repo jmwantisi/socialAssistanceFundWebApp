@@ -40,7 +40,7 @@ export default class ApplicantService {
         }
     }
 
-    async deleteUser(id) {
+    async delete(id) {
         try {
             const response = await apiClient.delete(`/users/${id}`);
             return response.data;
