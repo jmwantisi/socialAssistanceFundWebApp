@@ -1,11 +1,13 @@
 import apiClient from '../../apiClient';
 
 export default class AddressService {
-    baseUrl = "addresses";
+    constructor() {
+        this.BASE_URL = '/addresses';
+    }
 
     async getAllCounties() {
         try {
-            const response = await apiClient.get(`${this.baseUrl}/counties`);
+            const response = await apiClient.get(`${this.BASE_URL}/counties`);
             return response.data;
         } catch (error) {
             throw new Error('Error fetching counties');
@@ -14,7 +16,7 @@ export default class AddressService {
 
     async getCountyById(id) {
         try {
-            const response = await apiClient.get(`${this.baseUrl}/counties/${id}`);
+            const response = await apiClient.get(`${this.BASE_URL}/counties/${id}`);
             return response.data;
         } catch (error) {
             throw new Error(`Error fetching counties with ID: ${id}`);
@@ -23,7 +25,7 @@ export default class AddressService {
 
     async getSubCountiesByCountyId(id) {
         try {
-            const response = await apiClient.get(`${this.baseUrl}/counties/${id}/subcounties`);
+            const response = await apiClient.get(`${this.BASE_URL}/counties/${id}/subcounties`);
             return response.data;
         } catch (error) {
             throw new Error(`Error fetching sub-counties with County ID: ${id}`);
@@ -32,7 +34,7 @@ export default class AddressService {
 
     async getAllLocations() {
         try {
-            const response = await apiClient.get(`${this.baseUrl}/locations`);
+            const response = await apiClient.get(`${this.BASE_URL}/locations`);
             return response.data;
         } catch (error) {
             throw new Error('Error fetching locations');
@@ -41,17 +43,16 @@ export default class AddressService {
 
     async getLocationById(id) {
         try {
-            const response = await apiClient.get(`${this.baseUrl}/locations/${id}`);
+            const response = await apiClient.get(`${this.BASE_URL}/locations/${id}`);
             return response.data;
         } catch (error) {
             throw new Error(`Error fetching location with ID: ${id}`);
         }
     }
 
-    // New function to get locations by sub-county ID
     async getLocationsBySubCountyId(id) {
         try {
-            const response = await apiClient.get(`${this.baseUrl}/subcounties/${id}/locations`);
+            const response = await apiClient.get(`${this.BASE_URL}/subcounties/${id}/locations`);
             return response.data;
         } catch (error) {
             throw new Error(`Error fetching locations for sub-county ID: ${id}`);
@@ -60,7 +61,7 @@ export default class AddressService {
 
     async getSubLocationsByLocationId(id) {
         try {
-            const response = await apiClient.get(`${this.baseUrl}/locations/${id}/sublocations`);
+            const response = await apiClient.get(`${this.BASE_URL}/locations/${id}/sublocations`);
             return response.data;
         } catch (error) {
             throw new Error(`Error fetching sub-locations for location ID: ${id}`);
@@ -69,7 +70,7 @@ export default class AddressService {
 
     async getAllSubLocations() {
         try {
-            const response = await apiClient.get(`${this.baseUrl}/sublocations`);
+            const response = await apiClient.get(`${this.BASE_URL}/sublocations`);
             return response.data;
         } catch (error) {
             throw new Error('Error fetching sub-locations');
@@ -78,7 +79,7 @@ export default class AddressService {
 
     async getSubLocationById(id) {
         try {
-            const response = await apiClient.get(`${this.baseUrl}/sublocations/${id}`);
+            const response = await apiClient.get(`${this.BASE_URL}/sublocations/${id}`);
             return response.data;
         } catch (error) {
             throw new Error(`Error fetching sub-location with ID: ${id}`);
@@ -87,7 +88,7 @@ export default class AddressService {
 
     async getVillagesBySubLocationId(id) {
         try {
-            const response = await apiClient.get(`${this.baseUrl}/sublocations/${id}/villages`);
+            const response = await apiClient.get(`${this.BASE_URL}/sublocations/${id}/villages`);
             return response.data;
         } catch (error) {
             throw new Error(`Error fetching villages for sub-location ID: ${id}`);
@@ -96,7 +97,7 @@ export default class AddressService {
 
     async getAllVillages() {
         try {
-            const response = await apiClient.get(`${this.baseUrl}/villages`);
+            const response = await apiClient.get(`${this.BASE_URL}/villages`);
             return response.data;
         } catch (error) {
             throw new Error('Error fetching villages');
@@ -105,7 +106,7 @@ export default class AddressService {
 
     async getVillageById(id) {
         try {
-            const response = await apiClient.get(`${this.baseUrl}/villages/${id}`);
+            const response = await apiClient.get(`${this.BASE_URL}/villages/${id}`);
             return response.data;
         } catch (error) {
             throw new Error(`Error fetching village with ID: ${id}`);
