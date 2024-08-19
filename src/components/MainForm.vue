@@ -38,7 +38,7 @@
       </b-field>
 
       <b-field label="Age">
-        <b-input type="number" v-model="applicant.age"></b-input>
+        <b-input type="number" v-model.number="applicant.age"></b-input>
       </b-field>
 
       <b-field label="Marital Status">
