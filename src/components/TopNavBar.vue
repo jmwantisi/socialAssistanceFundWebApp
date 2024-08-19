@@ -2,10 +2,7 @@
     <b-navbar>
       <template #brand>
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
-          <img
-            src="https://raw.githubusercontent.com/buefy/buefy/dev/static/img/buefy-logo.png"
-            alt="Lightweight UI components for Vue.js based on Bulma"
-          >
+          <img :src="imageSrc" alt="My Image" />
         </b-navbar-item>
       </template>
   
@@ -21,8 +18,13 @@
   </template>
   
   <script>
+  import logo from '@/assets/logo.png';
   export default {
-  
+    data() {
+    return {
+      imageSrc: logo,
+    };
+  },
   };
   </script>
   
