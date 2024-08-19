@@ -124,15 +124,17 @@
           </li>
         </ul>
       </b-field>
-
       <b-field label="Applicant Programmes">
-        <b-input v-model="newProgramme" placeholder="Enter programme ID"></b-input>
-        <b-button @click="addProgramme">Add Programme</b-button>
+        <b-select v-model="newProgramme" expanded>
+          <option v-for="program in programs" :key="program.id" :value="program">
+            {{ program.name }}
+          </option>
+        </b-select>
+        <b-button @click="() => {addProgramme (selectedProgramme)}">Add Programme</b-button>
       </b-field>
-
-      <b-field label="Existing Programmes">
+      <b-field label="Selected Programmes">
         <ul>
-          <li v-for="programme in applicant.applicantProgrammes" :key="programme">
+          <li v-for="programme in displayProgrammesNames" :key="programme">
             {{ programme }}
           </li>
         </ul>
@@ -146,6 +148,7 @@
 <script>
 import AddressService from '@/services/AddressService';
 import ApplicantService from '@/services/ApplicantService';
+import ProgramService from '@/services/ProgramService';
 
 export default {
   computed: {
@@ -194,12 +197,15 @@ export default {
         phoneNumber: '',
         type: 'mobile'
       },
+      selectedProgramme: null,
       newProgramme: '',
       counties: [],
       subCounties: [],
       locations: [],
       subLocations: [],
-      villages: []
+      villages: [],
+      programs: [],
+      displayProgrammesNames: []
     };
   },
   methods: {
@@ -271,17 +277,35 @@ export default {
       }
     },
     addProgramme() {
-      const programmeId = parseInt(this.newProgramme, 10);
+      console.log("Program: ", this.newProgramme)
+      const programmeId = parseInt(this.newProgramme.id, 10);
       if (!isNaN(programmeId)) {
-        this.applicant.applicantProgrammes.push(programmeId);
+        this.applicant.applicantProgrammes.push(this.newProgramme.id);
+        this.displayProgrammesNames.push(this.newProgramme.name)
         this.newProgramme = '';
       }
-    }
+    },
+
+    getProgramName(programId) {
+      const program = this.programs.find(p => p.id === programId);
+      return program ? program.name : 'Unknown Program';
+    },
+    addProgrammes() {
+      this.selectedProgrammes.forEach(programId => {
+        if (!this.applicant.applicantProgrammes.includes(programId.id)) {
+          this.applicant.applicantProgrammes.push(programId.id);
+        }
+      });
+      this.selectedProgrammes = [];
+    },
   },
+  
   async created() {
     const addresses = new AddressService();
     this.counties = await addresses.getAllCounties();
     this.applicantService = new ApplicantService();
+    const programService = new ProgramService();
+    this.programs = await programService.list();
   }
 };
 </script>
