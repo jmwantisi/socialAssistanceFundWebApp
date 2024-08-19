@@ -261,8 +261,9 @@ export default {
   methods: {
     async fetchApplicantData() {
       try {
-        // Fetch applicant data and convert keys to camelCase
-        const response = await this.applicationService.read(1);
+        const id = this.$route.params.id;
+        console.log("ID::: ",)
+        const response = await this.applicationService.read(id);
         this.applicant = convertKeysToCamelCase(response);
         
         // Set date fields if applicable

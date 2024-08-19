@@ -15,7 +15,7 @@ const routes = [
     component: ApplicantsFormView
   },
   {
-    path: '/view',
+    path: '/view/:id',
     name: 'applicantsView',
     component: EditViewForm
   }
