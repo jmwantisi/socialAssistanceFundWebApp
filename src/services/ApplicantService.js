@@ -42,10 +42,10 @@ export default class ApplicantService {
 
     async delete(id) {
         try {
-            const response = await apiClient.delete(`/users/${id}`);
+            const response = await apiClient.delete(`/applicants/${id}`);
             return response.data;
         } catch (error) {
-            throw new Error(`Error deleting user with ID: ${id}`);
+            throw new Error(`Error deleting applicant with ID: ${id}`);
         }
     }
 }
