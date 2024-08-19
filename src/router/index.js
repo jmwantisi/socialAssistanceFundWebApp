@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ApplicantsFormView from '@/views/ApplicantsFormView.vue';
 import ApplicantsListView from '@/views/ApplicantsListView.vue';
+import EditViewForm from '@/components/EditViewForm.vue';
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/create',
     name: 'applicantsCreate',
     component: ApplicantsFormView
+  },
+  {
+    path: '/view',
+    name: 'applicantsView',
+    component: EditViewForm
   }
 ];
 
