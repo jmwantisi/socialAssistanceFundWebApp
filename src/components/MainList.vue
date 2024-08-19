@@ -41,10 +41,8 @@
                     </span>
                 </b-table-column>
 
-                <!-- Action Column -->
                 <b-table-column label="Actions" v-slot="props">
-                    <b-button size="is-small" type="is-info" @click="viewApplicant(props.row)">View</b-button>
-                    <b-button size="is-small" type="is-primary" @click="editApplicant(props.row)">Edit</b-button>
+                    <b-button size="is-small" type="is-info" @click="redirectToView(props.row)" :disabled="isViewing">View</b-button>
                     <b-button size="is-small" type="is-danger" @click="deleteApplicant(props.row)">Delete</b-button>
                 </b-table-column>
 
@@ -77,12 +75,8 @@ export default {
         };
     },
     methods: {
-        viewApplicant(applicant) {
-            console.log("Viewing applicant:", applicant);
-        },
-
-        editApplicant(applicant) {
-            console.log("Editing applicant:", applicant);
+        redirectToView(applicant) {
+            this.$router.push({ name: 'applicantsView', params: { id: applicant.id } }); // Update with actual ID
         },
 
         async deleteApplicant(applicant) {
