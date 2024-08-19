@@ -119,7 +119,7 @@
 
       <b-field label="Existing Phone Numbers">
         <ul>
-          <li v-for="phone in applicant.telephones" :key="phone.id">
+          <li v-for="phone in applicant.telephones">
             {{ phone.phoneNumber }} ({{ phone.type }})
           </li>
         </ul>
@@ -148,11 +148,19 @@ import AddressService from '@/services/AddressService';
 import ApplicantService from '@/services/ApplicantService';
 
 export default {
+  computed: {
+    dobToString() {
+      return this.dob ? this.dob.toISOString().split('T')[0] : '';
+    },
+    applicationDateToString() {
+      return this.applicationDate ? this.dob.toISOString().split('T')[0] : '';
+    }
+  },
   data() {
     return {
       applicantService: null,
-      dob: new Date(),
-      applicationDate: new Date(),
+      dob: '',
+      applicationDate: '',
       applicant: {
         id: null,
         firstName: '',
@@ -198,9 +206,9 @@ export default {
     async submitForm() {
       try {
         const payload = this.convertToSnakeCase(this.applicant);
-        const finalPayload = {...payload, dob: this.dob, application_date: this.applicationDate}
+        const finalPayload = {...payload, dob: this.dobToString, application_date: this.applicationDateToString}
         console.log(finalPayload);
-        const response = await this.applicantService.create({finalPayload});
+        const response = await this.applicantService.create(finalPayload);
         console.log('Applicant created successfully:', response.data);
       } catch (error) {
         console.error('Error submitting form:', error);
@@ -219,7 +227,6 @@ export default {
             typeof item === 'object' ? this.convertToSnakeCase(item) : item
           );
         } else {
-          // Convert Date object to string in 'YYYY-MM-DD' format if necessary
           snakeCaseObj[snakeKey] = value instanceof Date
             ? value.toISOString().split('T')[0]
             : value;
@@ -256,7 +263,6 @@ export default {
     addPhone() {
       if (this.newPhone.phoneNumber) {
         this.applicant.telephones.push({
-          id: this.applicant.telephones.length + 1, // Generate a new ID or use a unique method
           phoneNumber: this.newPhone.phoneNumber,
           type: this.newPhone.type
         });
