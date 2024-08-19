@@ -17,6 +17,11 @@ export default {
       </div>
       <div class="columns">
         <div class="column">
+            <h3>SOCIAL ASSISTANCE FUND</h3>
+        </div>
+    </div>
+      <div class="columns">
+        <div class="column">
           <router-view></router-view>
         </div>
       </div>
