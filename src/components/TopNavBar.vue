@@ -13,7 +13,7 @@
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
           Applicants
         </b-navbar-item>
-        <b-navbar-item tag="router-link" :to="{ path: '/applicants/create' }">
+        <b-navbar-item tag="router-link" :to="{ path: '/create' }">
             Add New Applicant
         </b-navbar-item>
       </template>
