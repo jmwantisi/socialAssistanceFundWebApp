@@ -104,9 +104,9 @@ export default {
         },
     },
     async created() {
-        const applicantService = new ApplicantService();
+        this.applicantService = new ApplicantService();
         try {
-            const response = await applicantService.list();
+            const response = await this.applicantService.list();
             this.applicants = response.content;
         } catch (error) {
             console.error('Error fetching applicants:', error);
